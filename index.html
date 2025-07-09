@@ -154,18 +154,35 @@
                 calculateTotal();
             }
 
-            function downloadInvoice() {
-                const element = document.getElementById('invoice');
-                const opt = {
-                    margin: 1,
-                    filename: `invoice-${document.getElementById('invoiceNumber').value}.pdf`,
-                    image: { type: 'jpeg', quality: 0.98 },
-                      html2canvas:  {
-      scale: 3,          // higher scale for better resolution
-      useCORS: true,     // handles external images (if any)
-      scrollY: 0         // ensure entire element is captured
+  //           function downloadInvoice() {
+  //               const element = document.getElementById('invoice');
+  //               const opt = {
+  //                   margin: 1,
+  //                   filename: `invoice-${document.getElementById('invoiceNumber').value}.pdf`,
+  //                   image: { type: 'jpeg', quality: 0.98 },
+  //                     html2canvas:  {
+  //     scale: 3,          // higher scale for better resolution
+  //     useCORS: true,     // handles external images (if any)
+  //     scrollY: 0         // ensure entire element is captured
+  //   },
+  //   jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+  // };
+                function downloadInvoice() {
+  const element = document.getElementById('invoice');
+
+  // Scroll the invoice into view to prevent rendering issues
+  element.scrollIntoView({ behavior: 'auto', block: 'start' });
+
+  const opt = {
+    margin: 0.2,
+    filename: `invoice-${document.getElementById('invoiceNumber').value}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      scrollY: 0 // Prevent partial rendering if user scrolled
     },
-    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
   };
 
                 html2pdf().set(opt).from(element).save();
